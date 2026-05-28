@@ -42,7 +42,7 @@ export function BookCard({ book, whatsappNumber }: BookCardProps) {
     <>
       <article
         onClick={() => setIsDetailsOpen(true)}
-        className="group w-full max-w-[300px] mx-auto bg-card text-left transition-all duration-500 hover:-translate-y-1 cursor-pointer"
+        className="group w-full bg-card text-left transition-all duration-500 hover:-translate-y-1 cursor-pointer"
       >
         <div className="relative aspect-[3/4] bg-secondary border border-border p-3 shadow-md mx-2 mt-2">
           <div className="relative w-full h-full overflow-hidden bg-muted flex items-center justify-center">

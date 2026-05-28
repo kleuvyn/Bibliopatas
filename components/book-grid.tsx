@@ -95,8 +95,8 @@ export function BookGrid({ books, whatsappNumber }: BookGridProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4 rounded-3xl border border-border/70 bg-card/80 p-4 shadow-sm">
-        <div className="relative flex-1">
+      <div className="flex flex-col gap-4 rounded-3xl border border-border/70 bg-card/80 p-4 shadow-sm">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Buscar por título, autor ou descrição..."
@@ -126,9 +126,9 @@ export function BookGrid({ books, whatsappNumber }: BookGridProps) {
             </Button>
           ) : null}
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3">
           <Select value={conditionFilter} onValueChange={setConditionFilter}>
-            <SelectTrigger className="w-35">
+            <SelectTrigger className="w-full sm:w-40">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue placeholder="Condicao" />
             </SelectTrigger>
@@ -140,7 +140,7 @@ export function BookGrid({ books, whatsappNumber }: BookGridProps) {
             </SelectContent>
           </Select>
           <Select value={priceOrder} onValueChange={setPriceOrder}>
-            <SelectTrigger className="w-35">
+            <SelectTrigger className="w-full sm:w-40">
               <SelectValue placeholder="Preço" />
             </SelectTrigger>
             <SelectContent>
@@ -151,7 +151,7 @@ export function BookGrid({ books, whatsappNumber }: BookGridProps) {
           </Select>
           {genres.length > 0 && (
             <Select value={genreFilter} onValueChange={setGenreFilter}>
-              <SelectTrigger className="w-35">
+              <SelectTrigger className="w-full sm:w-40">
                 <SelectValue placeholder="Genero" />
               </SelectTrigger>
               <SelectContent>
