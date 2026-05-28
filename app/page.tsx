@@ -1,6 +1,4 @@
-import { createClient } from '@libsql/client'
-import { sampleBooks, type Book } from '@/lib/types'
-import { getGoogleBooksCoverUrl } from '@/lib/google-books'
+import { loadAvailableBooks } from '@/lib/books'
 import { Header, Hero, Footer } from '@/components/layout'
 import { BookGrid } from '@/components/book-grid'
 
@@ -8,91 +6,7 @@ const WHATSAPP_NUMBER = '556194293140'
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bibliopatas.com.br'
 
 async function getBooks() {
-  try {
-    if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
-      if (process.env.GOOGLE_BOOKS_API_KEY) {
-        return await Promise.all(
-          sampleBooks.map(async (book) => {
-            if (book.cover_url) return book
-            const cover = await getGoogleBooksCoverUrl(book.title, book.author)
-            return {
-              ...book,
-              cover_url: cover ?? null,
-            }
-          })
-        )
-      }
-      return sampleBooks
-    }
-
-    const turso = createClient({
-      url: process.env.TURSO_DATABASE_URL,
-      authToken: process.env.TURSO_AUTH_TOKEN,
-    })
-
-    const result = await turso.execute(`
-      SELECT
-        id,
-        title,
-        author,
-        price,
-        cover_url,
-        description,
-        condition,
-        genre,
-        available,
-        created_at,
-        updated_at
-      FROM books
-      WHERE available = 1
-      ORDER BY lower(title) ASC
-    `)
-
-    const books: Book[] = result.rows.map((row) => ({
-      id: String(row.id),
-      title: String(row.title ?? ''),
-      author: String(row.author ?? ''),
-      price: Number(row.price ?? 0),
-      cover_url: row.cover_url ? String(row.cover_url) : null,
-      description: row.description ? String(row.description) : null,
-      condition: (row.condition as Book['condition']) ?? 'usado',
-      genre: row.genre ? String(row.genre) : null,
-      available: Number(row.available ?? 0) === 1,
-      created_at: String(row.created_at ?? ''),
-      updated_at: String(row.updated_at ?? ''),
-    }))
-
-    if (process.env.GOOGLE_BOOKS_API_KEY) {
-      const enrichedBooks = await Promise.all(
-        books.map(async (book) => {
-          if (book.cover_url) return book
-          const cover = await getGoogleBooksCoverUrl(book.title, book.author)
-          return {
-            ...book,
-            cover_url: cover ?? null,
-          }
-        })
-      )
-      return enrichedBooks
-    }
-
-    return books
-  } catch {
-    // Se o Turso nao estiver configurado ou houver erro, usa dados locais
-    if (process.env.GOOGLE_BOOKS_API_KEY) {
-      return await Promise.all(
-        sampleBooks.map(async (book) => {
-          if (book.cover_url) return book
-          const cover = await getGoogleBooksCoverUrl(book.title, book.author)
-          return {
-            ...book,
-            cover_url: cover ?? null,
-          }
-        })
-      )
-    }
-    return sampleBooks
-  }
+  return loadAvailableBooks()
 }
 
 const structuredData = {
