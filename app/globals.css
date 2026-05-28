@@ -1,0 +1,137 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Bibliopatas - Paleta exata da Logo */
+  --background: #f4f1ea; /* Fundo Bege exato da logo */
+  --foreground: #2d3748; /* Texto principal escuro */
+  --card: #f8f6f0; /* Fundo dos cards suave */
+  --card-foreground: #2d3748;
+  --popover: #f4f1ea;
+  --popover-foreground: #2d3748;
+  --primary: #315881; /* Azul em destaque exato da logo */
+  --primary-foreground: #f4f1ea;
+  --secondary: #e2e8f0; 
+  --secondary-foreground: #315881;
+  --muted: #e6e4dc;
+  --muted-foreground: #718096; /* Texto de apoio delicado */
+  --accent: #e6e4dc; 
+  --accent-foreground: #315881;
+  --destructive: oklch(0.6 0.1 20); /* Vermelho envelhecido seco */
+  --destructive-foreground: oklch(0.99 0.01 90);
+  --border: #dcd9d0; /* Borda suave de papel */
+  --input: #e6e4dc;
+  --ring: #315881;
+  --shadow: 0 4px 20px rgba(74, 68, 63, 0.05); /* Sombra mais terrosa, orgânica e sutil */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.15rem; /* Bordas cortadas menores como papel */
+  --sidebar: oklch(0.98 0.01 80);
+  --sidebar-foreground: oklch(0.25 0.02 250);
+  --sidebar-primary: oklch(0.55 0.12 250);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.92 0.03 80);
+  --sidebar-accent-foreground: oklch(0.25 0.02 250);
+  --sidebar-border: oklch(0.88 0.02 80);
+  --sidebar-ring: oklch(0.55 0.12 250);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --font-sans: var(--font-lora), 'Georgia', serif;
+  --font-serif: var(--font-playfair), 'Times New Roman', serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground relative;
+    min-height: 100vh;
+    /* Textura suave de papel e patinhas ilustradas feitas à mão */
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100' opacity='0.02'%3E%3Cpath fill='%23315881' d='M44,23.3A7.5,7.5,0,1,1,36.5,15.8,7.5,7.5,0,0,1,44,23.3ZM33.2,35.7a8.6,8.6,0,1,0-8.6-8.6A8.6,8.6,0,0,0,33.2,35.7ZM62,15.8a7.5,7.5,0,1,0,7.5,7.5A7.5,7.5,0,0,0,62,15.8ZM50,65c-10.7,0-17.9-6.3-17.9-15,0-8.4,14.6-25,17.9-25s17.9,16.6,17.9,25C67.9,58.7,60.7,65,50,65Zm16.8-29.3a8.6,8.6,0,1,0,8.6,8.6A8.6,8.6,0,0,0,66.8,35.7Z'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='45' height='45' viewBox='0 0 100 100' opacity='0.015' transform='rotate(15)'%3E%3Cpath fill='%23315881' d='M44,23.3A7.5,7.5,0,1,1,36.5,15.8,7.5,7.5,0,0,1,44,23.3ZM33.2,35.7a8.6,8.6,0,1,0-8.6-8.6A8.6,8.6,0,0,0,33.2,35.7ZM62,15.8a7.5,7.5,0,1,0,7.5,7.5A7.5,7.5,0,0,0,62,15.8ZM50,65c-10.7,0-17.9-6.3-17.9-15,0-8.4,14.6-25,17.9-25s17.9,16.6,17.9,25C67.9,58.7,60.7,65,50,65Zm16.8-29.3a8.6,8.6,0,1,0,8.6,8.6A8.6,8.6,0,0,0,66.8,35.7Z'/%3E%3C/svg%3E");
+    background-color: var(--background);
+    background-repeat: repeat, no-repeat, no-repeat;
+    background-position: top left, 8% 10%, 85% 85%;
+    background-attachment: fixed;
+  }
+}

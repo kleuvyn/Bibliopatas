@@ -1,0 +1,18 @@
+export const GENRE_OPTIONS = [
+  'Autoajuda e Psicologia',
+  'Direito',
+  'Educação e Idiomas',
+  'Espiritualidade e Yoga',
+  'Fantasia',
+  'Ficção e Literatura',
+  'Ficção e Romance',
+  'Ficcao',
+  'História e Biografia',
+  'Infantil',
+  'Literatura',
+  'Negocios e Economia',
+  'Politica e Sociedade',
+  'Romance',
+  'Saúde e Bem-Estar',
+  'Viagem e Guias',
+]
