@@ -34,3 +34,14 @@ export function isGoogleBooksCover(url: string | null | undefined) {
     return false
   }
 }
+
+export function isBlobCoverUrl(url: string | null | undefined) {
+  if (!url) return false
+
+  try {
+    const hostname = new URL(url).hostname
+    return hostname.endsWith('.vercel-storage.com') || hostname.endsWith('.blob.vercel-storage.com')
+  } catch {
+    return false
+  }
+}

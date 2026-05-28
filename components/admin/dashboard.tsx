@@ -58,7 +58,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { isGoogleBooksCover, upgradeGoogleBooksCoverUrl } from '@/lib/cover'
+import { isBlobCoverUrl, isGoogleBooksCover, upgradeGoogleBooksCoverUrl } from '@/lib/cover'
 
 interface AdminDashboardProps {
   books: Book[]
@@ -692,7 +692,7 @@ export function AdminDashboard({ books: initialBooks, userEmail }: AdminDashboar
                           height={80}
                           className="w-full h-full object-cover"
                           quality={100}
-                          unoptimized={isGoogleBooksCover(book.cover_url)}
+                          unoptimized={isGoogleBooksCover(book.cover_url) || isBlobCoverUrl(book.cover_url)}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">

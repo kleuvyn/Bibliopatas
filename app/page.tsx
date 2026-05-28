@@ -1,5 +1,6 @@
 import { createClient } from '@libsql/client'
 import { sampleBooks, type Book } from '@/lib/types'
+import { getGoogleBooksCoverUrl } from '@/lib/google-books'
 import { Header, Hero, Footer } from '@/components/layout'
 import { BookGrid } from '@/components/book-grid'
 
@@ -9,6 +10,18 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bibliopatas.com.br'
 async function getBooks() {
   try {
     if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
+      if (process.env.GOOGLE_BOOKS_API_KEY) {
+        return await Promise.all(
+          sampleBooks.map(async (book) => {
+            if (book.cover_url) return book
+            const cover = await getGoogleBooksCoverUrl(book.title, book.author)
+            return {
+              ...book,
+              cover_url: cover ?? null,
+            }
+          })
+        )
+      }
       return sampleBooks
     }
 
@@ -49,9 +62,35 @@ async function getBooks() {
       updated_at: String(row.updated_at ?? ''),
     }))
 
+    if (process.env.GOOGLE_BOOKS_API_KEY) {
+      const enrichedBooks = await Promise.all(
+        books.map(async (book) => {
+          if (book.cover_url) return book
+          const cover = await getGoogleBooksCoverUrl(book.title, book.author)
+          return {
+            ...book,
+            cover_url: cover ?? null,
+          }
+        })
+      )
+      return enrichedBooks
+    }
+
     return books
   } catch {
     // Se o Turso nao estiver configurado ou houver erro, usa dados locais
+    if (process.env.GOOGLE_BOOKS_API_KEY) {
+      return await Promise.all(
+        sampleBooks.map(async (book) => {
+          if (book.cover_url) return book
+          const cover = await getGoogleBooksCoverUrl(book.title, book.author)
+          return {
+            ...book,
+            cover_url: cover ?? null,
+          }
+        })
+      )
+    }
     return sampleBooks
   }
 }

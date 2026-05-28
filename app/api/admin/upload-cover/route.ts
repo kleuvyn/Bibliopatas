@@ -20,6 +20,27 @@ function getExtensionFromFile(file: File) {
   return 'jpg'
 }
 
+async function uploadToBlob(file: File) {
+  const token = process.env.bibliopatas_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_TOKEN
+  const storeId = process.env.bibliopatas_STORE_ID || process.env.VERCEL_BLOB_STORE_ID
+
+  if (!token || !storeId) {
+    return null
+  }
+
+  process.env.VERCEL_BLOB_TOKEN = token
+  process.env.VERCEL_BLOB_STORE_ID = storeId
+
+  const { put } = await import('@vercel/blob')
+  const extension = getExtensionFromFile(file)
+  const fileName = `${Date.now()}-${randomUUID()}.${extension}`
+  const blobKey = `covers/${fileName}`
+  const arrayBuffer = await file.arrayBuffer()
+  const result = await put(blobKey, Buffer.from(arrayBuffer), { access: 'public' })
+
+  return result?.url ?? null
+}
+
 export async function POST(request: Request) {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 })
@@ -38,6 +59,11 @@ export async function POST(request: Request) {
 
   if (file.size > MAX_FILE_SIZE_BYTES) {
     return NextResponse.json({ error: 'Imagem muito grande. Limite de 5MB.' }, { status: 400 })
+  }
+
+  const blobUrl = await uploadToBlob(file)
+  if (blobUrl) {
+    return NextResponse.json({ url: blobUrl })
   }
 
   const extension = getExtensionFromFile(file)

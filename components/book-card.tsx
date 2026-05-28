@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { MessageCircle, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { isGoogleBooksCover, upgradeGoogleBooksCoverUrl } from '@/lib/cover'
+import { isBlobCoverUrl, isGoogleBooksCover, upgradeGoogleBooksCoverUrl } from '@/lib/cover'
 import {
   Dialog,
   DialogContent,
@@ -47,13 +47,13 @@ export function BookCard({ book, whatsappNumber }: BookCardProps) {
         <div className="relative aspect-[3/4] bg-secondary border border-border p-3 shadow-md mx-2 mt-2">
           <div className="relative w-full h-full overflow-hidden bg-muted flex items-center justify-center">
             <Image
-              src={coverUrl ?? '/placeholder.jpg'}
+              src={coverUrl ?? '/images/placeholder.svg'}
               alt={coverUrl ? `Capa de ${book.title}` : 'Capa padrão de livro'}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              className={`group-hover:scale-105 transition-transform duration-700 ease-out ${coverUrl ? 'object-cover' : 'object-contain'}`}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 280px"
               quality={100}
-              unoptimized={false}
+              unoptimized={Boolean(coverUrl) && (isGoogleBooksCover(coverUrl) || isBlobCoverUrl(coverUrl))}
             />
           </div>
           <Badge 
