@@ -21,24 +21,34 @@ function getExtensionFromFile(file: File) {
 }
 
 async function uploadToBlob(file: File) {
-  const token = process.env.bibliopatas_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_TOKEN
-  const storeId = process.env.bibliopatas_STORE_ID || process.env.VERCEL_BLOB_STORE_ID
+  const token =
+    process.env.BLOB_READ_WRITE_TOKEN ||
+    process.env.bibliopatas_READ_WRITE_TOKEN ||
+    process.env.VERCEL_BLOB_TOKEN
+  const storeId =
+    process.env.BLOB_STORE_ID ||
+    process.env.bibliopatas_STORE_ID ||
+    process.env.VERCEL_BLOB_STORE_ID
 
   if (!token || !storeId) {
     return null
   }
 
-  process.env.VERCEL_BLOB_TOKEN = token
-  process.env.VERCEL_BLOB_STORE_ID = storeId
+  try {
+    process.env.VERCEL_BLOB_TOKEN = token
+    process.env.VERCEL_BLOB_STORE_ID = storeId
 
-  const { put } = await import('@vercel/blob')
-  const extension = getExtensionFromFile(file)
-  const fileName = `${Date.now()}-${randomUUID()}.${extension}`
-  const blobKey = `covers/${fileName}`
-  const arrayBuffer = await file.arrayBuffer()
-  const result = await put(blobKey, Buffer.from(arrayBuffer), { access: 'public' })
+    const { put } = await import('@vercel/blob')
+    const extension = getExtensionFromFile(file)
+    const fileName = `${Date.now()}-${randomUUID()}.${extension}`
+    const blobKey = `covers/${fileName}`
+    const arrayBuffer = await file.arrayBuffer()
+    const result = await put(blobKey, Buffer.from(arrayBuffer), { access: 'public' })
 
-  return result?.url ?? null
+    return result?.url ?? null
+  } catch {
+    return null
+  }
 }
 
 export async function POST(request: Request) {
@@ -64,6 +74,13 @@ export async function POST(request: Request) {
   const blobUrl = await uploadToBlob(file)
   if (blobUrl) {
     return NextResponse.json({ url: blobUrl })
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'Upload indisponível. Configure o Blob Storage para produção.' },
+      { status: 500 }
+    )
   }
 
   const extension = getExtensionFromFile(file)

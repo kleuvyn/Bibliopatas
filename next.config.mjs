@@ -5,7 +5,12 @@ const nextConfig = {
   },
   images: {
     unoptimized: false,
+    qualities: [75, 100],
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
       {
         protocol: 'https',
         hostname: 'books.google.com',
@@ -17,6 +22,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'martinsfontespaulista.vteximg.com.br',
       },
     ],
   },
